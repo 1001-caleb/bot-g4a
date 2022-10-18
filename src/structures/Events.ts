@@ -1,12 +1,18 @@
-import type { ClientEvents } from 'discord.js'
-import type { ExtendedClient } from './Client'
+import type { ClientEvents } from 'discord.js';
+import type { ExtendedClient } from './Client';
 
 export class EventBuilder<T extends keyof ClientEvents> {
-    public constructor(public name: T, public once: boolean) {}
+	public constructor(public name: T, public once?: true) {}
 
-    public callback!: EventFunction<T>;
+	public callback!: EventFunction<T>;
 
-    public setCallback(){}
+	public setCallback(fn: EventFunction<T>) {
+		this.callback = fn;
+		return this;
+	}
 }
 
-type EventFunction<T extends keyof ClientEvents> = (client: ExtendedClient, ...args: ClientEvents[T] ) => unknown
+type EventFunction<T extends keyof ClientEvents> = (
+	client: ExtendedClient,
+	...args: ClientEvents[T]
+) => unknown;
