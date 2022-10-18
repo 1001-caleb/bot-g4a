@@ -1,6 +1,6 @@
 import Discord from "discord.js";
 import type { CommandBuilder } from "./Command";
-import {commandHandler} from '../handlers' 
+import {commandHandler, eventHandler} from '../handlers' 
 export class ExtendedClient extends Discord.Client<true> {
     public constructor (){
         super({intents: 37631})
@@ -10,6 +10,7 @@ export class ExtendedClient extends Discord.Client<true> {
 
     public async start() : Promise<void> {
         await commandHandler(this)
+        await eventHandler(this);
         await this.login();
     }
 }
